@@ -21,6 +21,8 @@ The goal is to have CNF-02 as an extension of CNF-01 with the added third party 
 
 CNF-01's interface converts to a String to String map of configurations. For this reason, Lists and Maps used in Typesafe Config are represented as Strings and might require parsing depending on the use case.
 
+Null values are not supported. Keys that have null values are not present in the resulting Map.
+
 == How to use
 
 // add instructions how people can start to use your project
