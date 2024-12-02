@@ -3,33 +3,36 @@
 // 2. Update the issues link in Contributing section in the readme file
 // 3. Update the discussion link in config.yml file in .github/ISSUE_TEMPLATE directory
 
-= repo-template
+= Teragrep Configuration Wrapper for Typesafe Config
 
 // Add a short description of your project. Tell what your project does and what it's used for.
 
-This is a template repository for Teragrep organization.
+CNF-02 is a library that provides immutable configuration for Typesafe Config for projects using Java. Typesafe Config will be converted to https://github.com/teragrep/cnf_01[CNF-01]'s Configuration interface, so it is wise to read through its documentation as well. CNF-02 has CNF-01 as a dependency, so it provides all the functionality that it has.
+
+The goal is to have CNF-02 as an extension of CNF-01 with the added third party dependency of Typesafe Config. This ensures that if a project does not use Typesafe for configuration, it doesn't have to be added as a dependency when migrating to use the CNF-01 library.
 
 == Features
 
 // List your project's features
-
-== Documentation
-
-See the official documentation on https://docs.teragrep.com[docs.teragrep.com].
+- Converts Typesafe Config to CNF-01 interface.
+- Provides all functionalities from CNF-01 with a transitive dependency to the component.
 
 == Limitations
 
-// If your project has limitations, please list them. Otherwise remove this section.
+Features are still under development.
 
-== How to [compile/use/implement]
+== How to use
 
 // add instructions how people can start to use your project
+See https://github.com/teragrep/cnf_01[CNF-01's documentation] for using the library.
+
+Instructions for converting Typesafe Config will be written here when the functionality has been developed.
 
 == Contributing
 
 // Change the repository name in the issues link to match with your project's name
 
-You can involve yourself with our project by https://github.com/teragrep/repo-template/issues/new/choose[opening an issue] or submitting a pull request.
+You can involve yourself with our project by https://github.com/teragrep/cnf_02/issues/new/choose[opening an issue] or submitting a pull request.
 
 Contribution requirements:
 
