@@ -6,7 +6,7 @@
   <version>${revision}${sha1}${changelist}</version>
   <packaging>jar</packaging>
   <name>cnf_02</name>
-  <description>Teragrep Java Configuration Wrapper for Typesafe Config</description>
+  <description>Teragrep Configuration Wrapper for Typesafe Config</description>
   <url>https://teragrep.com</url>
   <licenses>
     <license>
@@ -236,7 +236,7 @@
                   <owner>Suomen Kanuuna Oy</owner>
                   <start>2024</start>
                 </copyright>
-                <text>Teragrep Java Configuration Wrapper for Typesafe Config (cnf_02)</text>
+                <text>Teragrep Configuration Wrapper for Typesafe Config (cnf_02)</text>
               </all>
               <family>Teragrep</family>
             </license>
