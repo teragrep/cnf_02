@@ -38,6 +38,16 @@
     <sha1></sha1>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>com.teragrep</groupId>
+      <artifactId>cnf_01</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.typesafe</groupId>
+      <artifactId>config</artifactId>
+      <version>1.4.3</version>
+    </dependency>
     <!-- Logging -->
     <dependency>
       <groupId>ch.qos.logback</groupId>

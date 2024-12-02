@@ -19,14 +19,24 @@ The goal is to have CNF-02 as an extension of CNF-01 with the added third party 
 
 == Limitations
 
-Features are still under development.
+CNF-01's interface converts to a String to String map of configurations. For this reason, Lists and Maps used in Typesafe Config are represented as Strings and might require parsing depending on the use case.
 
 == How to use
 
 // add instructions how people can start to use your project
 See https://github.com/teragrep/cnf_01[CNF-01's documentation] for using the library.
 
-Instructions for converting Typesafe Config will be written here when the functionality has been developed.
+Example for using `TypesafeConfiguration`:
+
+[,java]
+----
+// One way of initializing Typesafe Config
+Config config = ConfigFactory.parseFile("file/path");
+
+// Converting Config to CNF-01 Map.
+Configuration configuration = new TypesafeConfiguration(config);
+Map<String, String> configurationMap = configuration.asMap();
+----
 
 == Contributing
 
