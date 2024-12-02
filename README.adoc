@@ -7,7 +7,7 @@
 
 // Add a short description of your project. Tell what your project does and what it's used for.
 
-CNF-02 is a library that provides immutable configuration for Java projects mainly for the Typesafe Config. Typesafe Config will be converted to https://github.com/teragrep/cnf_01[CNF-01]'s Configuration interface, so it is wise to read through its' documentation as well. It has CNF-01 as a dependency, so it provides all the functionality that it has.
+CNF-02 is a library that provides immutable configuration for Java projects mainly for the Typesafe Config. Typesafe Config will be converted to https://github.com/teragrep/cnf_01[CNF-01]'s Configuration interface, so it is wise to read through its documentation as well. It has CNF-01 as a dependency, so it provides all the functionality that it has.
 
 The goal is to have CNF-02 as an extension of CNF-01 with the added third party dependency of Typesafe Config. This ensures that if a project does not use Typesafe for configuration, it doesn't have to be added as a dependency when migrating to use the CNF-01 library.
 
@@ -21,7 +21,7 @@ The goal is to have CNF-02 as an extension of CNF-01 with the added third party 
 
 Features are still under development.
 
-== How to [compile/use/implement]
+== How to use
 
 // add instructions how people can start to use your project
 See https://github.com/teragrep/cnf_01[CNF-01's documentation] for using the library.
