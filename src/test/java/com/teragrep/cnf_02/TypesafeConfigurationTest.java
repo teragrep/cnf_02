@@ -54,6 +54,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,12 @@ public class TypesafeConfigurationTest {
         TypesafeConfiguration cnf = new TypesafeConfiguration(typesafe);
         Map<String, String> map = cnf.asMap();
 
+        // assert the original typesafe config
+        Assertions.assertEquals(3, typesafe.entrySet().size());
+        Assertions.assertEquals(1, typesafe.getInt("foo"));
+        Assertions.assertEquals("foo", typesafe.getString("bar"));
+        Assertions.assertTrue(typesafe.getBoolean("fizz"));
+        // assert the resulting map
         Assertions.assertEquals(3, map.size());
         Assertions.assertEquals("1", map.get("foo"));
         Assertions.assertEquals("foo", map.get("bar"));
@@ -90,6 +97,11 @@ public class TypesafeConfigurationTest {
 
         Map<String, String> map = cnf.asMap();
 
+        // assert the original typesafe config
+        Assertions.assertEquals(0, typesafe.entrySet().size()); // entrySet() doesn't return null values
+        Assertions.assertFalse(typesafe.isEmpty());
+        Assertions.assertTrue(typesafe.getIsNull("nullValue"));
+
         // null values are not returned from the typesafe config, list stays empty
         Assertions.assertEquals(0, map.size());
     }
@@ -105,6 +117,10 @@ public class TypesafeConfigurationTest {
         TypesafeConfiguration cnf = new TypesafeConfiguration(typesafe);
 
         Map<String, String> map = cnf.asMap();
+
+        // assert the original typesafe config
+        Assertions.assertEquals(1, typesafe.entrySet().size());
+        Assertions.assertEquals(Arrays.asList("first", "second"), typesafe.getList("listValue").unwrapped());
 
         Assertions.assertEquals(1, map.size());
         Assertions.assertEquals("[first, second]", map.get("listValue"));
@@ -122,7 +138,11 @@ public class TypesafeConfigurationTest {
 
         Map<String, String> map = cnf.asMap();
 
-        // Map gets split to individual paths
+        // assert the original typesafe config
+        Assertions.assertEquals(2, typesafe.entrySet().size());
+        Assertions.assertEquals("foo", typesafe.getString("map.value.path.bar"));
+        Assertions.assertEquals("bar", typesafe.getString("map.value.path.foo"));
+        // assert the resulting map
         Assertions.assertEquals(2, map.size());
         Assertions.assertEquals("foo", map.get("map.value.path.bar"));
         Assertions.assertEquals("bar", map.get("map.value.path.foo"));
@@ -146,6 +166,10 @@ public class TypesafeConfigurationTest {
 
         Map<String, String> map = cnf.asMap();
 
+        // assert the original typesafe config
+        Assertions.assertEquals(1, typesafe.entrySet().size());
+        Assertions.assertEquals(Arrays.asList(input1, input2), typesafe.getList("list.value.path").unwrapped());
+        // assert the resulting map
         Assertions.assertEquals(1, map.size());
         // the keys are put in alphabetical order in the maps
         Assertions.assertEquals("[{bar=2, foo=1}, {bar=2, foo=1}]", map.get("list.value.path"));
