@@ -45,6 +45,8 @@
  */
 package com.teragrep.cnf_02;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigValueFactory;
@@ -108,6 +110,8 @@ public class TypesafeConfigurationTest {
 
     @Test
     public void testList() {
+        TypeToken<List<String>> listType = new TypeToken<>() {
+        }; // for gson
         List<String> list = new ArrayList<>();
         list.add("first");
         list.add("second");
@@ -123,7 +127,10 @@ public class TypesafeConfigurationTest {
         Assertions.assertEquals(Arrays.asList("first", "second"), typesafe.getList("listValue").unwrapped());
 
         Assertions.assertEquals(1, map.size());
-        Assertions.assertEquals("[first, second]", map.get("listValue"));
+        Assertions.assertEquals("[\"first\",\"second\"]", map.get("listValue"));
+
+        // can be parsed with gson to the original list
+        Assertions.assertEquals(list, new Gson().fromJson(map.get("listValue"), listType));
     }
 
     @Test
@@ -150,13 +157,16 @@ public class TypesafeConfigurationTest {
 
     @Test
     public void testMapsInList() {
-        Map<String, Object> input1 = new HashMap<>();
+        TypeToken<List<Map<String, Integer>>> listType = new TypeToken<>() {
+        }; // for gson
+
+        Map<String, Integer> input1 = new HashMap<>();
         input1.put("foo", 1);
         input1.put("bar", 2);
-        Map<String, Object> input2 = new HashMap<>();
+        Map<String, Integer> input2 = new HashMap<>();
         input2.put("foo", 1);
         input2.put("bar", 2);
-        List<Object> list = new ArrayList<>();
+        List<Map<String, Integer>> list = new ArrayList<>();
         list.add(input1);
         list.add(input2);
 
@@ -172,7 +182,10 @@ public class TypesafeConfigurationTest {
         // assert the resulting map
         Assertions.assertEquals(1, map.size());
         // the keys are put in alphabetical order in the maps
-        Assertions.assertEquals("[{bar=2, foo=1}, {bar=2, foo=1}]", map.get("list.value.path"));
+        Assertions.assertEquals("[{\"bar\":2,\"foo\":1},{\"bar\":2,\"foo\":1}]", map.get("list.value.path"));
+
+        // can be parsed with gson to the original list
+        Assertions.assertEquals(list, new Gson().fromJson(map.get("list.value.path"), listType));
     }
 
     @Test
