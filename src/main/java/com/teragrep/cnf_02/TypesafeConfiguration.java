@@ -47,10 +47,15 @@ package com.teragrep.cnf_02;
 
 import com.teragrep.cnf_01.Configuration;
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigValue;
+import com.typesafe.config.ConfigValueType;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -77,7 +82,7 @@ public final class TypesafeConfiguration implements Configuration {
                                         Collectors
                                                 .toMap(
                                                         entry -> entry.getKey(),
-                                                        entry -> entry.getValue().unwrapped().toString()
+                                                        entry -> configValueAsString(entry.getValue())
                                                 )
                                 )
                 );
@@ -86,6 +91,22 @@ public final class TypesafeConfiguration implements Configuration {
         LOGGER.trace("Returning configuration map <[{}]>", map);
 
         return map;
+    }
+
+    /**
+     * Returns the ConfigValue as a String. If a List is provided, returns it in Json format.
+     * 
+     * @param value in Config
+     * @return the ConfigValue as a String
+     */
+    private String configValueAsString(final ConfigValue value) {
+        String valueString = value.unwrapped().toString();
+        if (value.valueType().equals(ConfigValueType.LIST)) {
+            final List<Object> list = (List<Object>) value.unwrapped(); // Typesafe returns List<Object> for ConfigValueType.LIST
+            final JsonArray arr = Json.createArrayBuilder(list).build();
+            valueString = arr.toString();
+        }
+        return valueString;
     }
 
     @Override

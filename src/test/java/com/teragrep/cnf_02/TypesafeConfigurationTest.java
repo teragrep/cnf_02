@@ -48,11 +48,15 @@ package com.teragrep.cnf_02;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigValueFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonReader;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -118,12 +122,23 @@ public class TypesafeConfigurationTest {
 
         Map<String, String> map = cnf.asMap();
 
+        // parse back into a java list
+        JsonReader reader = Json.createReader(new StringReader(map.get("listValue")));
+        JsonArray arr = reader.readArray();
+        List<String> parsedList = new ArrayList<>();
+        for (int i = 0; i < arr.size(); i++) {
+            parsedList.add(arr.getString(i));
+        }
+
         // assert the original typesafe config
         Assertions.assertEquals(1, typesafe.entrySet().size());
         Assertions.assertEquals(Arrays.asList("first", "second"), typesafe.getList("listValue").unwrapped());
 
         Assertions.assertEquals(1, map.size());
-        Assertions.assertEquals("[first, second]", map.get("listValue"));
+        Assertions.assertEquals("[\"first\",\"second\"]", map.get("listValue"));
+
+        // can be parsed with jakarta to the original list
+        Assertions.assertEquals(list, parsedList);
     }
 
     @Test
@@ -150,13 +165,13 @@ public class TypesafeConfigurationTest {
 
     @Test
     public void testMapsInList() {
-        Map<String, Object> input1 = new HashMap<>();
+        Map<String, Integer> input1 = new HashMap<>();
         input1.put("foo", 1);
         input1.put("bar", 2);
-        Map<String, Object> input2 = new HashMap<>();
+        Map<String, Integer> input2 = new HashMap<>();
         input2.put("foo", 1);
         input2.put("bar", 2);
-        List<Object> list = new ArrayList<>();
+        List<Map<String, Integer>> list = new ArrayList<>();
         list.add(input1);
         list.add(input2);
 
@@ -166,13 +181,27 @@ public class TypesafeConfigurationTest {
 
         Map<String, String> map = cnf.asMap();
 
+        // parse back into a java list
+        JsonReader reader = Json.createReader(new StringReader(map.get("list.value.path")));
+        JsonArray arr = reader.readArray();
+        List<Map<String, Integer>> parsedList = new ArrayList<>();
+        for (int i = 0; i < arr.size(); i++) {
+            Map<String, Integer> parsedMap = new HashMap<>();
+            for (Map.Entry entry : arr.getJsonObject(i).entrySet()) {
+                parsedMap.put(entry.getKey().toString(), Integer.parseInt(entry.getValue().toString()));
+            }
+            parsedList.add(parsedMap);
+        }
+
         // assert the original typesafe config
         Assertions.assertEquals(1, typesafe.entrySet().size());
         Assertions.assertEquals(Arrays.asList(input1, input2), typesafe.getList("list.value.path").unwrapped());
         // assert the resulting map
         Assertions.assertEquals(1, map.size());
         // the keys are put in alphabetical order in the maps
-        Assertions.assertEquals("[{bar=2, foo=1}, {bar=2, foo=1}]", map.get("list.value.path"));
+        Assertions.assertEquals("[{\"bar\":2,\"foo\":1},{\"bar\":2,\"foo\":1}]", map.get("list.value.path"));
+        // can be parsed with jakarta to the original list
+        Assertions.assertEquals(list, parsedList);
     }
 
     @Test
