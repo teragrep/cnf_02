@@ -19,7 +19,7 @@ The goal is to have CNF-02 as an extension of CNF-01 with the added third party 
 
 == Limitations
 
-CNF-01's interface converts to a String to String map of configurations. For this reason, Lists used in Typesafe Config are represented as Strings. The resulting List Strings are in Json format and can be parsed with Gson.
+CNF-01's interface converts to a String to String map of configurations. For this reason, Lists used in Typesafe Config are represented as Strings. The resulting List Strings are in Json format and can be parsed with Jakarta or Gson for example.
 
 Maps are represented individually as key-value pairs like in Typesafe Config.
 

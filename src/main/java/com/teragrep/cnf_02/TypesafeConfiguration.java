@@ -45,15 +45,17 @@
  */
 package com.teragrep.cnf_02;
 
-import com.google.gson.Gson;
 import com.teragrep.cnf_01.Configuration;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigValue;
 import com.typesafe.config.ConfigValueType;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -98,11 +100,13 @@ public final class TypesafeConfiguration implements Configuration {
      * @return the ConfigValue as a String
      */
     private String configValueAsString(final ConfigValue value) {
-        String valueAsJson = value.unwrapped().toString();
+        String valueString = value.unwrapped().toString();
         if (value.valueType().equals(ConfigValueType.LIST)) {
-            valueAsJson = new Gson().toJson(value.unwrapped());
+            final List<Object> list = (List<Object>) value.unwrapped(); // Typesafe returns List<Object> for ConfigValueType.LIST
+            final JsonArray arr = Json.createArrayBuilder(list).build();
+            valueString = arr.toString();
         }
-        return valueAsJson;
+        return valueString;
     }
 
     @Override
