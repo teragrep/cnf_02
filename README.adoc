@@ -25,23 +25,6 @@ Maps are represented individually as key-value pairs like in Typesafe Config.
 
 Null values are not supported. Keys that have null values are not present in the resulting Map.
 
-== How To Use
-
-// add instructions how people can start to use your project
-See https://github.com/teragrep/cnf_01[CNF-01's documentation] for using the library.
-
-Example for using `TypesafeConfiguration`:
-
-[,java]
-----
-// One way of initializing Typesafe Config
-Config config = ConfigFactory.parseFile("file/path");
-
-// Converting Config to CNF-01 Map.
-Configuration configuration = new TypesafeConfiguration(config);
-Map<String, String> configurationMap = configuration.asMap();
-----
-
 == How To Implement
 
 When implementing CNF-01 to a project, the point is to keep the main objects immutable and simple by moving the handling of configuration to their own objects.
@@ -103,6 +86,23 @@ Example example = exampleFactory.object();
 ----
 
 * Create additional factories for other objects that require configurations.
+
+== How To Use
+
+// add instructions how people can start to use your project
+See https://github.com/teragrep/cnf_01[CNF-01's documentation] for using the library.
+
+Example for using `TypesafeConfiguration`:
+
+[,java]
+----
+// One way of initializing Typesafe Config
+Config config = ConfigFactory.parseFile("file/path");
+
+// Converting Config to CNF-01 Map.
+Configuration configuration = new TypesafeConfiguration(config);
+Map<String, String> configurationMap = configuration.asMap();
+----
 
 == Contributing
 
