@@ -27,65 +27,7 @@ Null values are not supported. Keys that have null values are not present in the
 
 == How To Implement
 
-When implementing CNF-01 to a project, the point is to keep the main objects immutable and simple by moving the handling of configuration to their own objects.
-
-Follow these steps to implement CNF-01 in a Java project:
-
-* Identify the object that has to use configurations.
-* You can define an interface for the factory objects that create the configured objects:
-+
-
-[,java]
-----
-public interface Factory<T> {
-    public T object();
-}
-----
-
-* Create a Factory object for the object that has to use configurations.
-+
-
-[,java]
-----
-public final class ExampleFactory implements Factory<Example> {
-
-    private final Map<String, String> config;
-
-    public ExampleFactory(final Map<String, String> config) {
-        this.config = config;
-    }
-
-    @Override
-    public Example object() {
-        // Parsing of values should be done here too if something else than String is needed
-        final String exampleType = config.get("example.type");
-        final String exampleText = config.get("example.text");
-        final Example example;
-
-        if (exampleType.equals("good")) {
-            example = new GoodExample(exampleText);
-        } else {
-            example = new BadExample(exampleText);
-        }
-
-        return example;
-    }
-}
-----
-
-* Utilize the Factory object to get properly initialized objects with the configuration options.
-+
-
-[,java]
-----
-PropertiesConfiguration config = new PropertiesConfiguration(); // from CNF-01
-Map<String, String> configurationMap = config.asMap();
-
-ExampleFactory exampleFactory = new ExampleFactory(configurationMap);
-Example example = exampleFactory.object();
-----
-
-* Create additional factories for other objects that require configurations.
+See https://github.com/teragrep/cnf_01[CNF-01's documentation] for instructions on implementation.
 
 == How To Use
 
