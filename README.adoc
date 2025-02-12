@@ -25,7 +25,11 @@ Maps are represented individually as key-value pairs like in Typesafe Config.
 
 Null values are not supported. Keys that have null values are not present in the resulting Map.
 
-== How to use
+== How to Implement
+
+See https://github.com/teragrep/cnf_01[CNF-01's documentation] for instructions on implementation.
+
+== How to Use
 
 // add instructions how people can start to use your project
 See https://github.com/teragrep/cnf_01[CNF-01's documentation] for using the library.
